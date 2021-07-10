@@ -47,8 +47,8 @@
 #include "addons/RTDBHelper.h"
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "Param"
-#define WIFI_PASSWORD "panwar@2021"
+#define WIFI_SSID "Test"
+#define WIFI_PASSWORD "Test@123"
 
 /* 2. Define the API Key */
 #define API_KEY "AIzaSyB0POpgvkCMQIgGptZAF2RCll9R5gzFpWw"
