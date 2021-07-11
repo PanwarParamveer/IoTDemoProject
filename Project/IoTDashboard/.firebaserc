@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "params-iot-device": {
+      "hosting": {
+        "IoT-Dashboard": [
+          "params-iot-device"
+        ]
+      }
+    }
+  }
+}

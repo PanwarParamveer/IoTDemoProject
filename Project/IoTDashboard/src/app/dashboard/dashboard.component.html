@@ -1,0 +1,54 @@
+
+
+
+    <H2 style="margin-top: 20px;margin-bottom: 20px;text-align: center; ">Home Appliance Control and Temperature Monitoring System</H2>
+
+
+
+<div class="container">
+<div class="row">
+
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+               <b> Home Applicance Control</b>
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body" style="text-align: center;">
+                <img id="myImage" *ngIf="Bulbstate"  src="assets/pic_bulbon.gif" width="100" height="180">
+                <img id="myImage"  *ngIf="!Bulbstate"  src="assets/pic_bulboff.gif" width="100" height="180">
+                <br>
+                <button (click)="OnOffBulb()" style="border:15px;margin-top: 10px;" class="btn btn-primary">On/Off</button>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <b>   Temperature Monitoring </b>
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <highcharts-chart
+                [Highcharts] = "highcharts" 
+                [options] = "chartOptions" 
+                style = "width: 100%; height: 400px; display: block;">
+             </highcharts-chart>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+</div>
+
+</div>
