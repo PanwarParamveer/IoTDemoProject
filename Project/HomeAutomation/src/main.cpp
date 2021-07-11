@@ -41,20 +41,23 @@
 #include <FirebaseESP8266.h>
 #endif
 
+const char *ntp_primary = "time.google.com";
+const char *ntp_secondary = "pool.ntp.org";
+
 // //Provide the token generation process info.
 #include "addons/TokenHelper.h"
 // //Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "Test"
-#define WIFI_PASSWORD "Test@123"
+#define WIFI_SSID "testWifi"
+#define WIFI_PASSWORD "testWifi123"
 
 /* 2. Define the API Key */
 #define API_KEY "AIzaSyB0POpgvkCMQIgGptZAF2RCll9R5gzFpWw"
 
 /* 3. Define the RTDB URL */
-#define DATABASE_URL "https://params-iot-device.firebaseio.com/" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
+#define DATABASE_URL "https://params-iot-device.firebaseio.com" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
 
 /* 4. Define the user Email and password that alreadey registerd or added in your project */
 #define USER_EMAIL "iot@test.com"
@@ -82,14 +85,15 @@ void streamCallback(StreamData data)
   Serial.println(data.intData());
   if (data.intData() == 1)
   {
-     Serial.print("Command: ");
-     Serial.println(data.intData());
-    digitalWrite(D0, HIGH);
+    Serial.print("Command: ");
+    Serial.println(data.intData());
+    digitalWrite(D0, LOW);
   }
   else if (data.intData() == 0)
-  { Serial.print("Command: ");
-     Serial.println(data.intData());
-    digitalWrite(D0, LOW);
+  {
+    Serial.print("Command: ");
+    Serial.println(data.intData());
+    digitalWrite(D0, HIGH);
   }
   else
   {
@@ -107,9 +111,9 @@ void setup()
 {
 
   Serial.begin(9600);
-  
+
   pinMode(D0, OUTPUT);
-  
+
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED)
@@ -121,8 +125,15 @@ void setup()
   Serial.print("Connected with IP: ");
   Serial.println(WiFi.localIP());
   Serial.println();
+  configTime(0, 0, ntp_primary, ntp_secondary);
 
-  Serial.printf("Firebase Client v%s\n\n", FIREBASE_CLIENT_VERSION);
+  while (time(nullptr) < 1510644967)
+  {
+    delay(1000);
+    printf(".");
+  }
+  Serial.print("Time : ");
+  Serial.println(time(nullptr));
 
   /* Assign the api key (required) */
   config.api_key = API_KEY;
@@ -147,7 +158,7 @@ void setup()
   //The data under the node being stream (parent path) should keep small
   //Large stream payload leads to the parsing error due to memory allocation.
 
-  if (!Firebase.beginStream(stream, "/State"))
+  if (!Firebase.beginStream(stream, "/BulbState/State"))
     Serial.printf("sream begin error, %s\n\n", stream.errorReason().c_str());
 
   Firebase.setStreamCallback(stream, streamCallback, streamTimeoutCallback);
@@ -156,12 +167,19 @@ void setup()
 void loop()
 {
 
-  if (Firebase.ready() && (millis() - sendDataPrevMillis > 30000 || sendDataPrevMillis == 0))
+  if (Firebase.ready() && (millis() - sendDataPrevMillis > 10000 || sendDataPrevMillis == 0))
   {
     sendDataPrevMillis = millis();
-    count++;
+
+    int analogValue = analogRead(A0);
+    float millivolts = (analogValue / 1024.0) * 3300; //3300 is the voltage provided by NodeMCU
+    float celsius = millivolts / 10;
+    Serial.print("in DegreeC=   ");
+    Serial.println(celsius);
+    Serial.println(time(nullptr));
     FirebaseJson json;
-    json.add("Value", count);
-    Serial.printf("Set json... %s\n\n", Firebase.setJSON(fbdo, "/Temperature", json) ? "ok" : fbdo.errorReason().c_str());
+    json.add("TimeStamp",String(time(nullptr)));
+    json.add("Temperature", celsius);
+    Serial.printf("Set json... %s\n\n", Firebase.pushJSON(fbdo, "/SensorData", json) ? "ok" : fbdo.errorReason().c_str());
   }
 }
