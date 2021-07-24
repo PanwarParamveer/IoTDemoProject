@@ -5,14 +5,14 @@
 export const environment = {
   production: false,
    firebaseConfig : {
-    apiKey: "AIzaSyB0POpgvkCMQIgGptZAF2RCll9R5gzFpWw",
-    authDomain: "params-iot-device.firebaseapp.com",
-    databaseURL: "https://params-iot-device.firebaseio.com",
-    projectId: "params-iot-device",
-    storageBucket: "params-iot-device.appspot.com",
-    messagingSenderId: "281428388370",
-    appId: "1:281428388370:web:2d7ec3a6788327602846cb",
-    measurementId: "G-5JXTKQ6FJL"
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+    measurementId: ""
   }
 };
 
