@@ -55,14 +55,14 @@ const char *ntp_secondary = "pool.ntp.org";
 #define WIFI_PASSWORD "testWifi123"
 
 /* 2. Define the API Key */
-#define API_KEY "AIzaSyB0POpgvkCMQIgGptZAF2RCll9R5gzFpWw"
+#define API_KEY "AIzaSdfsdfyB0POpgvgykCMQIgGdeptZAF2RCTll9R5gzFpWw"
 
 /* 3. Define the RTDB URL */
 #define DATABASE_URL "https://params-iot-device.firebaseio.com" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
 
 /* 4. Define the user Email and password that alreadey registerd or added in your project */
-#define USER_EMAIL "iot@test.com"
-#define USER_PASSWORD "123456"
+#define USER_EMAIL "test@things.com"
+#define USER_PASSWORD "er457851"
 
 //Define Firebase Data object
 FirebaseData stream;
